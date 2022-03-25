@@ -95,15 +95,40 @@
                 $list["PASSWORD"] = $item["PASSWORD"];
             }
 
-        return $list; test
+        return $list;
         }
 
         public function findIntershipByName(string $CompanyName)
         {
             $db = DB::getInstance();
-            $sql = $db->prepare("SELECT offer.ID_OFFER, company.COMPANY_NAME, offer.OFFER_NAME, offer.MISSION, offer.SALARY, offer.MIN_DURATION, offer.MAX_DURATION, offer.OFFER_DATE, offer.TRUST, evaluate.EVALUATION, offer.NUMBER_OF_PLACES FROM offer inner join company on offer.ID_COMPANY = company.ID_COMPANY inner join evaluate on evaluate.ID_OFFER = offer.ID_OFFER WHERE company.COMPANY_NAME = ?");
+            $sql = $db->prepare("SELECT * FROM final_offer_view WHERE company.COMPANY_NAME = ?");
             $sql->execute([$CompanyName]);
             foreach ($sql->fetch() as $item)
+            {
+                $list = [];
+                $list["ID_OFFER"] = $item["ID_OFFER"];
+                $list["COMPANY_NAME"] = $item["ID_ADDRESSCOMPANY_NAME"];
+                $list["OFFER_NAME"] = $item["OFFER_NAME"];
+                $list["MISSION"] = $item["MISSION"];
+                $list["SALARY"] = $item["SALARY"];
+                $list["MIN_DURATION"] = $item["MIN_DURATION"];
+                $list["MAX_DURATION"] = $item["MAX_DURATION"];
+                $list["TRUST"] = $item["TRUST"];
+                $list["EVALUATION"] = $item["EVALUATION"];
+                $list["NUMBER_OF_STUDENTS"] = $item["NUMBER_OF_STUDENTS"];
+                $list["OFFER_DATE"] = $item["OFFER_DATE"];
+                $list["OFFER_DATE"] = $item["OFFER_DATE"];
+            }
+
+        return $list;
+        }
+
+        public function findIntership()
+        {
+            $db = DB::getInstance();
+            $sql = $db->prepare("SELECT * FROM final_offer_view");
+            $sql->execute();
+            foreach ($sql->fetchAll() as $item)
             {
                 $list = [];
                 $list["ID_OFFER"] = $item["ID_OFFER"];
