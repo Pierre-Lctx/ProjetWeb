@@ -14,7 +14,6 @@ class Routeur
                 require_once('Model/'.$class.'.php');
             })
 
-            $url = '';
 
             if(isset($_GET['url']))
             {
