@@ -148,6 +148,31 @@
         return $list;
         }
 
+        public function selectDataForProfile($idPerson)
+        {
+            $db = DB::getInstance();
+            $sql = $db->prepare("SELECT * FROM final_offer_view");
+            $sql->execute();
+            foreach ($sql->fetchAll() as $item)
+            {
+                $list = [];
+                $list["ID_OFFER"] = $item["ID_OFFER"];
+                $list["COMPANY_NAME"] = $item["ID_ADDRESSCOMPANY_NAME"];
+                $list["OFFER_NAME"] = $item["OFFER_NAME"];
+                $list["MISSION"] = $item["MISSION"];
+                $list["SALARY"] = $item["SALARY"];
+                $list["MIN_DURATION"] = $item["MIN_DURATION"];
+                $list["MAX_DURATION"] = $item["MAX_DURATION"];
+                $list["TRUST"] = $item["TRUST"];
+                $list["EVALUATION"] = $item["EVALUATION"];
+                $list["NUMBER_OF_STUDENTS"] = $item["NUMBER_OF_STUDENTS"];
+                $list["OFFER_DATE"] = $item["OFFER_DATE"];
+                $list["OFFER_DATE"] = $item["OFFER_DATE"];
+            }
+
+        return $list;
+        }
+
         //Store Action
         public function store()
         {

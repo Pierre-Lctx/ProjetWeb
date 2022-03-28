@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 28 mars 2022 à 07:46
+-- Généré le : lun. 28 mars 2022 à 08:03
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -389,6 +389,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `LAST_NAME` varchar(40) NOT NULL,
   `FIRST_NAME` varchar(40) NOT NULL,
   `EMAIL` varchar(120) NOT NULL,
+  `PHONE_NUMBER` varchar(10) NOT NULL,
   `BIRTHDAY` date NOT NULL,
   `PASSWORD` varchar(40) NOT NULL,
   `CV` longblob,
@@ -401,14 +402,14 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`ID_USER`, `ID_PROMOTION`, `ID_ADDRESS`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `BIRTHDAY`, `PASSWORD`, `CV`, `MOTIVATION_LETTER`, `DRIVER_LICENSE`) VALUES
-(1, 2, 1, 'Lechatreux', 'Pierre', 'pierre.lechatreux@viacesi.fr', '2001-07-13', 'Admin', '', '', 1),
-(2, 2, 2, 'Le Rate', 'Baptiste', 'baptiste.lerate@viacesi.fr', '2002-09-13', 'Admin', '', '', 1),
-(3, 2, 3, 'Malondo', 'Emmanuel', 'emmanuel.malondo@viacesi.fr', '2002-11-16', 'Admin', '', '', 0),
-(4, 2, 4, 'Kurrimboccus', 'Anya', 'anya.kurriboccus@viacesi.fr', '2002-04-11', 'Admin', '', '', 1),
-(5, 2, 5, 'Koroglu', 'Ilhan', 'ilhan.koroglu@viacesi.fr', '2002-08-09', 'Admin', '', '', 1),
-(6, 2, 6, 'Martin', 'Aurélien', 'amartin@cesi.fr', '1982-09-13', 'A.Martin', '', '', 1),
-(7, 2, 7, 'Savalle', 'Florian', 'florian.savalle@viacesi.fr', '2002-08-15', 'Deleg', '', '', 1);
+INSERT INTO `user` (`ID_USER`, `ID_PROMOTION`, `ID_ADDRESS`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `PHONE_NUMBER`, `BIRTHDAY`, `PASSWORD`, `CV`, `MOTIVATION_LETTER`, `DRIVER_LICENSE`) VALUES
+(1, 2, 1, 'Lechatreux', 'Pierre', 'pierre.lechatreux@viacesi.fr', '', '2001-07-13', 'Admin', '', '', 1),
+(2, 2, 2, 'Le Rate', 'Baptiste', 'baptiste.lerate@viacesi.fr', '', '2002-09-13', 'Admin', '', '', 1),
+(3, 2, 3, 'Malondo', 'Emmanuel', 'emmanuel.malondo@viacesi.fr', '', '2002-11-16', 'Admin', '', '', 0),
+(4, 2, 4, 'Kurrimboccus', 'Anya', 'anya.kurriboccus@viacesi.fr', '', '2002-04-11', 'Admin', '', '', 1),
+(5, 2, 5, 'Koroglu', 'Ilhan', 'ilhan.koroglu@viacesi.fr', '', '2002-08-09', 'Admin', '', '', 1),
+(6, 2, 6, 'Martin', 'Aurélien', 'amartin@cesi.fr', '', '1982-09-13', 'A.Martin', '', '', 1),
+(7, 2, 7, 'Savalle', 'Florian', 'florian.savalle@viacesi.fr', '', '2002-08-15', 'Deleg', '', '', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
