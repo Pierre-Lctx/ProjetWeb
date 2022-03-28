@@ -116,8 +116,6 @@
                 $list["TRUST"] = $item["TRUST"];
                 $list["EVALUATION"] = $item["EVALUATION"];
                 $list["NUMBER_OF_STUDENTS"] = $item["NUMBER_OF_STUDENTS"];
-                $list["OFFER_DATE"] = $item["OFFER_DATE"];
-                $list["OFFER_DATE"] = $item["OFFER_DATE"];
             }
 
         return $list;
@@ -132,7 +130,7 @@
             {
                 $list = [];
                 $list["ID_OFFER"] = $item["ID_OFFER"];
-                $list["COMPANY_NAME"] = $item["ID_ADDRESSCOMPANY_NAME"];
+                $list["COMPANY_NAME"] = $item["COMPANY_NAME"];
                 $list["OFFER_NAME"] = $item["OFFER_NAME"];
                 $list["MISSION"] = $item["MISSION"];
                 $list["SALARY"] = $item["SALARY"];
@@ -141,8 +139,6 @@
                 $list["TRUST"] = $item["TRUST"];
                 $list["EVALUATION"] = $item["EVALUATION"];
                 $list["NUMBER_OF_STUDENTS"] = $item["NUMBER_OF_STUDENTS"];
-                $list["OFFER_DATE"] = $item["OFFER_DATE"];
-                $list["OFFER_DATE"] = $item["OFFER_DATE"];
             }
 
         return $list;
