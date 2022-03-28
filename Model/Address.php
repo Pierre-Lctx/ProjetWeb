@@ -1,6 +1,6 @@
 <?php
 
-class Address
+class Addres
 {
     private $_id;
     private $_idTown;
