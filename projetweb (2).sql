@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 24 mars 2022 à 09:31
+-- Généré le : lun. 28 mars 2022 à 07:46
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `STREET` varchar(255) NOT NULL,
   `NUMBER` varchar(5) NOT NULL,
   `POSTAL_CODE` varchar(5) NOT NULL,
-  `COMPLEMENT` varchar(255) DEFAULT NULL,
+  `COMPLEMENT` varchar(255) NOT NULL,
   PRIMARY KEY (`ID_ADDRESS`),
   KEY `FK_CORRESPONDENCE` (`ID_TOWN`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -44,17 +44,17 @@ CREATE TABLE IF NOT EXISTS `address` (
 --
 
 INSERT INTO `address` (`ID_ADDRESS`, `ID_TOWN`, `STREET`, `NUMBER`, `POSTAL_CODE`, `COMPLEMENT`) VALUES
-(1, 1, 'rue du docteur gallouen', '770', '76520', NULL),
-(2, 2, 'rue des briques', '15', '76000', NULL),
-(3, 2, 'rue des grands hommes', '156', '76000', NULL),
-(4, 2, 'rue des biomes', '2', '76000', NULL),
-(5, 3, 'rue des carnes', '6', '76920', NULL),
-(6, 4, 'rue des papillotes', '4', '27000', NULL),
-(7, 5, 'rue des délégués', '8', '76520', NULL),
-(8, 6, 'Avenue Edmund Allay', '150', '76100', NULL),
-(9, 2, 'Avenue de potion', '12', '76000', NULL),
-(10, 7, 'Avenue des voitures', '11', '76980', NULL),
-(11, 6, 'Avenue Edmund Allay', '152', '76100', NULL);
+(1, 1, 'rue du docteur gallouen', '770', '76520', ''),
+(2, 2, 'rue des briques', '15', '76000', ''),
+(3, 2, 'rue des grands hommes', '156', '76000', ''),
+(4, 2, 'rue des biomes', '2', '76000', ''),
+(5, 3, 'rue des carnes', '6', '76920', ''),
+(6, 4, 'rue des papillotes', '4', '27000', ''),
+(7, 5, 'rue des délégués', '8', '76520', ''),
+(8, 6, 'Avenue Edmund Allay', '150', '76100', ''),
+(9, 2, 'Avenue de potion', '12', '76000', ''),
+(10, 7, 'Avenue des voitures', '11', '76980', ''),
+(11, 6, 'Avenue Edmund Allay', '152', '76100', '');
 
 -- --------------------------------------------------------
 
@@ -65,10 +65,27 @@ INSERT INTO `address` (`ID_ADDRESS`, `ID_TOWN`, `STREET`, `NUMBER`, `POSTAL_CODE
 DROP TABLE IF EXISTS `apply_at`;
 CREATE TABLE IF NOT EXISTS `apply_at` (
   `ID_USER` int(11) NOT NULL,
-  `IF_OFFER` int(11) NOT NULL,
-  PRIMARY KEY (`ID_USER`,`IF_OFFER`),
-  KEY `FK_APPLY_AT` (`IF_OFFER`)
+  `ID_OFFER` int(11) NOT NULL,
+  PRIMARY KEY (`ID_USER`,`ID_OFFER`),
+  KEY `FK_APPLY_AT2` (`ID_OFFER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `apply_at`
+--
+
+INSERT INTO `apply_at` (`ID_USER`, `ID_OFFER`) VALUES
+(1, 1),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 1),
+(3, 2),
+(4, 2),
+(5, 1),
+(5, 2),
+(5, 3);
 
 -- --------------------------------------------------------
 
@@ -80,8 +97,7 @@ DROP TABLE IF EXISTS `associate_role`;
 CREATE TABLE IF NOT EXISTS `associate_role` (
   `ID_USER` int(11) NOT NULL,
   `ID_ROLE` int(11) NOT NULL,
-  PRIMARY KEY (`ID_USER`,`ID_ROLE`),
-  KEY `FK_ASSOCIATE_ROLE` (`ID_ROLE`)
+  PRIMARY KEY (`ID_USER`,`ID_ROLE`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -106,9 +122,8 @@ INSERT INTO `associate_role` (`ID_USER`, `ID_ROLE`) VALUES
 DROP TABLE IF EXISTS `bind`;
 CREATE TABLE IF NOT EXISTS `bind` (
   `ID_SKILL` int(11) NOT NULL,
-  `IF_OFFER` int(11) NOT NULL,
-  PRIMARY KEY (`ID_SKILL`,`IF_OFFER`),
-  KEY `FK_BIND` (`IF_OFFER`)
+  `ID_OFFER` int(11) NOT NULL,
+  PRIMARY KEY (`ID_SKILL`,`ID_OFFER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -121,8 +136,7 @@ DROP TABLE IF EXISTS `center`;
 CREATE TABLE IF NOT EXISTS `center` (
   `ID_CENTER` int(11) NOT NULL,
   `ID_TOWN` int(11) NOT NULL,
-  PRIMARY KEY (`ID_CENTER`),
-  KEY `FK_LOCATE_IN` (`ID_TOWN`)
+  PRIMARY KEY (`ID_CENTER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -169,8 +183,21 @@ CREATE TABLE IF NOT EXISTS `establishment` (
   `ID_COMPANY` int(11) NOT NULL,
   `NUM_SIRET` varchar(255) NOT NULL,
   `NUM_SIREN` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID_ESTABLISHMENT`),
-  KEY `FK_CORRESPONDS_TO` (`ID_COMPANY`)
+  PRIMARY KEY (`ID_ESTABLISHMENT`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `evaluate`
+--
+
+DROP TABLE IF EXISTS `evaluate`;
+CREATE TABLE IF NOT EXISTS `evaluate` (
+  `ID_USER` int(11) NOT NULL,
+  `ID_OFFER` int(11) NOT NULL,
+  `EVALUATION` int(11) NOT NULL,
+  PRIMARY KEY (`ID_USER`,`ID_OFFER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -183,8 +210,7 @@ DROP TABLE IF EXISTS `follow`;
 CREATE TABLE IF NOT EXISTS `follow` (
   `ID_USER` int(11) NOT NULL,
   `ID_COMPANY` int(11) NOT NULL,
-  PRIMARY KEY (`ID_USER`,`ID_COMPANY`),
-  KEY `FK_FOLLOW` (`ID_COMPANY`)
+  PRIMARY KEY (`ID_USER`,`ID_COMPANY`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -197,8 +223,7 @@ DROP TABLE IF EXISTS `link`;
 CREATE TABLE IF NOT EXISTS `link` (
   `ID_SKILL` int(11) NOT NULL,
   `ID_USER` int(11) NOT NULL,
-  PRIMARY KEY (`ID_SKILL`,`ID_USER`),
-  KEY `FK_LINK` (`ID_USER`)
+  PRIMARY KEY (`ID_SKILL`,`ID_USER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -211,8 +236,7 @@ DROP TABLE IF EXISTS `locate`;
 CREATE TABLE IF NOT EXISTS `locate` (
   `ID_ADDRESS` int(11) NOT NULL,
   `ID_COMPANY` int(11) NOT NULL,
-  PRIMARY KEY (`ID_ADDRESS`,`ID_COMPANY`),
-  KEY `FK_LOCATE` (`ID_COMPANY`)
+  PRIMARY KEY (`ID_ADDRESS`,`ID_COMPANY`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -228,12 +252,27 @@ INSERT INTO `locate` (`ID_ADDRESS`, `ID_COMPANY`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `log`
+--
+
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE IF NOT EXISTS `log` (
+  `ID_LOG` int(11) NOT NULL,
+  `ID_USER` int(11) NOT NULL,
+  `ACTION` varchar(255) NOT NULL,
+  `LOG_DATE` date NOT NULL,
+  PRIMARY KEY (`ID_LOG`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `offer`
 --
 
 DROP TABLE IF EXISTS `offer`;
 CREATE TABLE IF NOT EXISTS `offer` (
-  `IF_OFFER` int(11) NOT NULL,
+  `ID_OFFER` int(11) NOT NULL,
   `ID_COMPANY` int(11) NOT NULL,
   `OFFER_NAME` varchar(40) NOT NULL,
   `MISSION` text NOT NULL,
@@ -242,10 +281,8 @@ CREATE TABLE IF NOT EXISTS `offer` (
   `MAX_DURATION` date NOT NULL,
   `OFFER_DATE` date DEFAULT NULL,
   `TRUST` varchar(40) DEFAULT NULL,
-  `EVALUATION` int(11) DEFAULT NULL,
   `NUMBER_OF_PLACES` int(11) DEFAULT NULL,
-  PRIMARY KEY (`IF_OFFER`),
-  KEY `FK_BE_PART_OF` (`ID_COMPANY`)
+  PRIMARY KEY (`ID_OFFER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -286,8 +323,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `ID_ROLE` int(11) NOT NULL,
   `ID_CENTER` int(11) NOT NULL,
   `ROLE_NAME` varchar(40) NOT NULL,
-  PRIMARY KEY (`ID_ROLE`),
-  KEY `FK_LINK_TO` (`ID_CENTER`)
+  PRIMARY KEY (`ID_ROLE`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -348,32 +384,31 @@ INSERT INTO `town` (`ID_TOWN`, `TOWN_NAME`) VALUES
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `ID_USER` int(11) NOT NULL,
+  `ID_PROMOTION` int(11) NOT NULL,
   `ID_ADDRESS` int(11) NOT NULL,
-  `ID_PROMOTION` int(11) DEFAULT NULL,
   `LAST_NAME` varchar(40) NOT NULL,
   `FIRST_NAME` varchar(40) NOT NULL,
   `EMAIL` varchar(120) NOT NULL,
   `BIRTHDAY` date NOT NULL,
   `PASSWORD` varchar(40) NOT NULL,
-  `CV` longblob NOT NULL,
-  `MOTIVATION_LETTER` longblob NOT NULL,
-  PRIMARY KEY (`ID_USER`),
-  KEY `FK_ASSOCIATE_PROMOTION` (`ID_PROMOTION`),
-  KEY `FK_LIVE` (`ID_ADDRESS`)
+  `CV` longblob,
+  `MOTIVATION_LETTER` longblob,
+  `DRIVER_LICENSE` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ID_USER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`ID_USER`, `ID_ADDRESS`, `ID_PROMOTION`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `BIRTHDAY`, `PASSWORD`, `CV`, `MOTIVATION_LETTER`) VALUES
-(1, 1, NULL, 'Lechatreux', 'Pierre', 'pierre.lechatreux@viacesi.fr', '2001-07-13', 'Admin', '', ''),
-(2, 2, NULL, 'Le Rate', 'Baptiste', 'baptiste.lerate@viacesi.fr', '2002-09-13', 'Admin', '', ''),
-(3, 3, NULL, 'Malondo', 'Emmanuel', 'emmanuel.malondo@viacesi.fr', '2002-11-16', 'Admin', '', ''),
-(4, 4, NULL, 'Kurrimboccus', 'Anya', 'anya.kurriboccus@viacesi.fr', '2002-04-11', 'Admin', '', ''),
-(5, 5, NULL, 'Koroglu', 'Ilhan', 'ilhan.koroglu@viacesi.fr', '2002-08-09', 'Admin', '', ''),
-(6, 6, NULL, 'Martin', 'Aurélien', 'amartin@cesi.fr', '1982-09-13', 'A.Martin', '', ''),
-(7, 7, NULL, 'Savalle', 'Florian', 'florian.savalle@viacesi.fr', '2002-08-15', 'Deleg', '', '');
+INSERT INTO `user` (`ID_USER`, `ID_PROMOTION`, `ID_ADDRESS`, `LAST_NAME`, `FIRST_NAME`, `EMAIL`, `BIRTHDAY`, `PASSWORD`, `CV`, `MOTIVATION_LETTER`, `DRIVER_LICENSE`) VALUES
+(1, 2, 1, 'Lechatreux', 'Pierre', 'pierre.lechatreux@viacesi.fr', '2001-07-13', 'Admin', '', '', 1),
+(2, 2, 2, 'Le Rate', 'Baptiste', 'baptiste.lerate@viacesi.fr', '2002-09-13', 'Admin', '', '', 1),
+(3, 2, 3, 'Malondo', 'Emmanuel', 'emmanuel.malondo@viacesi.fr', '2002-11-16', 'Admin', '', '', 0),
+(4, 2, 4, 'Kurrimboccus', 'Anya', 'anya.kurriboccus@viacesi.fr', '2002-04-11', 'Admin', '', '', 1),
+(5, 2, 5, 'Koroglu', 'Ilhan', 'ilhan.koroglu@viacesi.fr', '2002-08-09', 'Admin', '', '', 1),
+(6, 2, 6, 'Martin', 'Aurélien', 'amartin@cesi.fr', '1982-09-13', 'A.Martin', '', '', 1),
+(7, 2, 7, 'Savalle', 'Florian', 'florian.savalle@viacesi.fr', '2002-08-15', 'Deleg', '', '', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
