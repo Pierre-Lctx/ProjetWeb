@@ -1,0 +1,169 @@
+*, *:before, *:after 
+  {
+    box-sizing: border-box;
+  }
+
+html 
+  {
+    font-size: 100%;
+  }
+
+body 
+  {
+    font-family: acumin-pro, system-ui, sans-serif;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    font-size: 14px;
+    background-color: #f4f4f4;
+    align-items: start;
+    min-height: 100vh;
+  }
+
+.footer1 
+  {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 30px 30px 20px 30px;
+    color: #2f2f2f;
+    background-color: #fff;
+    border-top: 1px solid #e5e5e5;
+    opacity: 0.80;
+  }
+
+.footer1 > * 
+  {
+    flex:  1 100%;
+  }
+
+.footer_address 
+  {
+    margin-right: 1.25em;
+    margin-bottom: 2em;
+  }
+
+.footer_logo 
+  {
+    font-family: 'Pacifico', cursive;
+    font-weight: 400;
+    text-transform: inherit;
+    font-size: 1.5rem;
+  }
+
+.footer_address h2 
+  {
+    margin-top: 1.3em;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+.nav_title 
+  {
+    font-weight: 400;
+    font-size: 15px;
+  }
+
+.footer address 
+  {
+    font-style: normal;
+    color: #999;
+  }
+
+.footer_btn 
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    max-width: max-content;
+    background-color: rgb(33, 33, 33, 0.07);
+    border-radius: 100px;
+    color: #2f2f2f;
+    line-height: 0;
+    margin: 0.6em 0;
+    font-size: 1rem;
+    padding: 0 1.3em;
+  }
+
+.footer1 ul 
+  {
+    list-style: none;
+    padding-left: 0;
+  }
+
+.footer1 li 
+  {
+    line-height: 2em;
+  }
+
+.footer1 a 
+  {
+    text-decoration: none;
+  }
+
+.footer_nav 
+  {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+.footer_nav > * 
+  {
+    flex: 1 50%;
+    margin-right: 1.25em;
+  }
+
+.nav_ul a 
+  {
+    color: #999;
+  }
+
+.nav_ul-a 
+  {
+    column-count: 1;
+    column-gap: 1.25em;
+  }
+
+.legal 
+  {
+    display: flex;
+    flex-wrap: wrap;
+    color: #000;
+  }
+    
+.legal_links 
+  {
+    display: flex;
+    align-items: center;
+  }
+
+@media screen and (min-width: 24.375em) 
+  {
+    .legal .legal_links 
+    {
+      margin-left: auto;
+    }
+  }
+
+@media screen and (min-width: 40.375em) 
+  {
+    .footer_nav > * 
+    {
+      flex: 1;
+    }
+    
+    .nav_item-a 
+    {
+        flex-grow: 0.5;
+    }
+    
+    .footer_address 
+    {
+      flex: 1 0px;
+    }
+    
+    .footer_nav 
+    {
+      flex: 2 0px;
+    }
+  }
