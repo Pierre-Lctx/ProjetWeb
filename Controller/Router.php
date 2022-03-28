@@ -22,7 +22,7 @@ class Routeur
 
                 $controller = ucfirst(strtolower($url[0]));
                 $controllerClass = "Controller".$controller;
-                $controllerFile = "controler/".controllerClass.".php"
+                $controllerFile = "controller/".controllerClass.".php"
 
                 if(file_exists($controllerFile))
                 {
@@ -31,15 +31,15 @@ class Routeur
 
                 }
                 else
-                throw new Exeption('Page introuvable');
+                throw new Exception('Page introuvable');
             }
             else
             {
-                require_once('controler/ControllerHome.php');
+                require_once('controller/ControllerHome.php');
                 $this->_ctrl = new  ControllerHome($url);
             }
         }
-        catch(Exeption $e)
+        catch(Exception $e)
         {
             $errorMsg = $e->getMessage();
             require_once('views/error.php')
