@@ -549,79 +549,79 @@ alter table ADDRESS add constraint FK_CORRESPONDENCE foreign key (ID_TOWN)
       references TOWN (ID_TOWN) on delete cascade on update restrict;
 
 alter table APPLY_AT add constraint FK_APPLY_AT foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete restrict on update restrict;
+      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
 
 alter table APPLY_AT add constraint FK_APPLY_AT2 foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table ASSOCIATE_ROLE add constraint FK_ASSOCIATE_ROLE foreign key (ID_ROLE)
-      references ROLE (ID_ROLE) on delete restrict on update restrict;
+      references ROLE (ID_ROLE) on delete CASCADE on update restrict;
 
 alter table ASSOCIATE_ROLE add constraint FK_ASSOCIATE_ROLE2 foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table BIND add constraint FK_BIND foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete restrict on update restrict;
+      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
 
 alter table BIND add constraint FK_BIND2 foreign key (ID_SKILL)
-      references SKILL (ID_SKILL) on delete restrict on update restrict;
+      references SKILL (ID_SKILL) on delete CASCADE on update restrict;
 
 alter table CENTER add constraint FK_LOCATE_IN foreign key (ID_TOWN)
-      references TOWN (ID_TOWN) on delete restrict on update restrict;
+      references TOWN (ID_TOWN) on delete CASCADE on update restrict;
 
 alter table ESTABLISHMENT add constraint FK_CORRESPONDS_TO foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
+      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
 
 alter table EVALUATE add constraint FK_EVALUATE foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete restrict on update restrict;
+      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
 
 alter table EVALUATE add constraint FK_EVALUATE2 foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table FOLLOW add constraint FK_FOLLOW foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
+      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
 
 alter table FOLLOW add constraint FK_FOLLOW2 foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table LINK add constraint FK_LINK foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table LINK add constraint FK_LINK2 foreign key (ID_SKILL)
-      references SKILL (ID_SKILL) on delete restrict on update restrict;
+      references SKILL (ID_SKILL) on delete CASCADE on update restrict;
 
 alter table LOCATE add constraint FK_LOCATE foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
+      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
 
 alter table LOCATE add constraint FK_LOCATE2 foreign key (ID_ADDRESS)
-      references ADDRESS (ID_ADDRESS) on delete restrict on update restrict;
+      references ADDRESS (ID_ADDRESS) on delete CASCADE on update restrict;
 
 alter table LOG add constraint FK_LINK_LOG foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table OFFER add constraint FK_BE_PART_OF foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
+      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
 
 alter table OFFER_STEP add constraint FK_OFFER_STEP foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete restrict on update restrict;
+      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
 
 alter table OFFER_STEP add constraint FK_OFFER_STEP2 foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 alter table ROLE add constraint FK_LINK_TO foreign key (ID_CENTER)
-      references CENTER (ID_CENTER) on delete restrict on update restrict;
+      references CENTER (ID_CENTER) on delete CASCADE on update restrict;
 
 alter table USER add constraint FK_ASSOCIATE_PROMOTION foreign key (ID_PROMOTION)
-      references PROMOTION (ID_PROMOTION) on delete restrict on update restrict;
+      references PROMOTION (ID_PROMOTION) on delete CASCADE on update restrict;
 
 alter table USER add constraint FK_LIVE foreign key (ID_ADDRESS)
-      references ADDRESS (ID_ADDRESS) on delete restrict on update restrict;
+      references ADDRESS (ID_ADDRESS) on delete CASCADE on update restrict;
 
 alter table WHISHLIST add constraint FK_WHISHLIST foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete restrict on update restrict;
+      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
 
 alter table WHISHLIST add constraint FK_WHISHLIST2 foreign key (ID_USER)
-      references USER (ID_USER) on delete restrict on update restrict;
+      references USER (ID_USER) on delete CASCADE on update restrict;
 
 
 --
