@@ -63,6 +63,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `role_management` ()  BEGIN
 SELECT CONCAT(user.LAST_NAME, user.FIRST_NAME) AS Name, promotion.PROMOTION_NAME, role.ROLE_NAME FROM `role` inner join associate_role on associate_role.ID_ROLE = role.ID_ROLE inner join user on associate_role.ID_USER = user.ID_USER inner join promotion on promotion.ID_PROMOTION = user.ID_PROMOTION;
 END$$
 
+DROP PROCEDURE IF EXISTS `searchIntership`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `searchIntership` (IN `offerName` VARCHAR(255), IN `companyName` VARCHAR(255), IN `skillName` VARCHAR(255), IN `townName` VARCHAR(255), IN `activitySector` VARCHAR(255), IN `intershipLength` INT)  BEGIN
+select final_offer.ID_OFFER, final_offer.ID_COMPANY, final_offer.COMPANY_NAME, final_offer.OFFER_NAME, final_offer.MISSION, final_offer.SALARY, final_offer.MIN_DURATION, final_offer.MAX_DURATION, final_offer.OFFER_DATE, final_offer.TRUST, final_offer.NUMBER_OF_PLACES, final_bind.SKILL_NAME from final_offer 
+inner join final_bind on final_bind.ID_OFFER = final_offer.ID_OFFER
+inner join locate on locate.ID_COMPANY = final_offer.ID_COMPANY
+inner join address on locate.ID_ADDRESS = address.ID_ADDRESS
+inner join town on town.ID_TOWN = address.ID_TOWN
+inner join final_establishment on final_establishment.ID_COMPANY = final_offer.ID_COMPANY
+
+
+where (final_offer.OFFER_NAME like concat("%",offerName,"%")
+or final_offer.COMPANY_NAME like concat("%",companyName,"%")
+or final_bind.SKILL_NAME like concat("%",skillName,"%") 
+or town.TOWN_NAME like concat("%",townName,"%"))
+and final_establishment.ACTIVITY_SECTOR like concat("%",activitySector,"%") and DATEDIFF(final_offer.MAX_DURATION, final_offer.MIN_DURATION) >= intershipLength
+
+ORDER BY final_offer.ID_OFFER;
+END$$
+
 DELIMITER ;
 
 /*==============================================================*/
@@ -527,7 +546,7 @@ create table WHISHLIST
 );
 
 alter table ADDRESS add constraint FK_CORRESPONDENCE foreign key (ID_TOWN)
-      references TOWN (ID_TOWN) on delete restrict on update restrict;
+      references TOWN (ID_TOWN) on delete cascade on update restrict;
 
 alter table APPLY_AT add constraint FK_APPLY_AT foreign key (ID_OFFER)
       references OFFER (ID_OFFER) on delete restrict on update restrict;
@@ -611,7 +630,7 @@ alter table WHISHLIST add constraint FK_WHISHLIST2 foreign key (ID_USER)
 DROP TABLE IF EXISTS `final_apply_at`;
 
 DROP VIEW IF EXISTS `final_apply_at`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_apply_at`  AS  select `apply_at`.`ID_USER` AS `ID_USER`,`apply_at`.`ID_OFFER` AS `ID_OFFER`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`promotion`.`PROMOTION_NAME` AS `PROMOTION_NAME`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`offer`.`OFFER_NAME` AS `OFFER_NAME` from ((((`apply_at` join `user` on((`user`.`ID_USER` = `apply_at`.`ID_USER`))) join `offer` on((`offer`.`ID_OFFER` = `apply_at`.`ID_OFFER`))) join `company` on((`company`.`ID_COMPANY` = `offer`.`ID_COMPANY`))) join `promotion` on((`user`.`ID_PROMOTION` = `promotion`.`ID_PROMOTION`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_apply_at`  AS  select `apply_at`.`ID_USER` AS `ID_USER`,`apply_at`.`ID_OFFER` AS `ID_OFFER`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from ((`apply_at` join `user` on((`user`.`ID_USER` = `apply_at`.`ID_USER`))) join `offer` on((`offer`.`ID_OFFER` = `apply_at`.`ID_OFFER`))) ;
 
 -- --------------------------------------------------------
 
@@ -621,7 +640,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_associate_role`;
 
 DROP VIEW IF EXISTS `final_associate_role`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_associate_role`  AS  select `associate_role`.`ID_USER` AS `ID_USER`,`associate_role`.`ID_ROLE` AS `ID_ROLE`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`promotion`.`PROMOTION_NAME` AS `PROMOTION_NAME`,`role`.`ROLE_NAME` AS `ROLE_NAME`,`town`.`TOWN_NAME` AS `TOWN_NAME` from (((((`associate_role` join `user` on((`associate_role`.`ID_USER` = `user`.`ID_USER`))) join `promotion` on((`promotion`.`ID_PROMOTION` = `user`.`ID_PROMOTION`))) join `role` on((`associate_role`.`ID_ROLE` = `role`.`ID_ROLE`))) join `center` on((`role`.`ID_CENTER` = `center`.`ID_CENTER`))) join `town` on((`town`.`ID_TOWN` = `center`.`ID_TOWN`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_associate_role`  AS  select `associate_role`.`ID_USER` AS `ID_USER`,`associate_role`.`ID_ROLE` AS `ID_ROLE`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from ((`associate_role` join `user` on((`user`.`ID_USER` = `associate_role`.`ID_USER`))) join `offer` on((`offer`.`ID_OFFER` = `associate_role`.`ID_ROLE`))) ;
 
 -- --------------------------------------------------------
 
@@ -631,7 +650,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_bind`;
 
 DROP VIEW IF EXISTS `final_bind`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_bind`  AS  select `bind`.`ID_SKILL` AS `ID_SKILL`,`bind`.`ID_OFFER` AS `ID_OFFER`,`skill`.`SKILL_NAME` AS `SKILL_NAME`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from (((`bind` join `skill` on((`skill`.`ID_SKILL` = `bind`.`ID_SKILL`))) join `offer` on((`offer`.`ID_OFFER` = `bind`.`ID_OFFER`))) join `company` on((`company`.`ID_COMPANY` = `offer`.`ID_COMPANY`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_bind`  AS  select `bind`.`ID_SKILL` AS `ID_SKILL`,`bind`.`ID_OFFER` AS `ID_OFFER`,`skill`.`SKILL_NAME` AS `SKILL_NAME`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from ((`bind` join `skill` on((`skill`.`ID_SKILL` = `bind`.`ID_SKILL`))) join `offer` on((`offer`.`ID_OFFER` = `bind`.`ID_OFFER`))) ;
 
 -- --------------------------------------------------------
 
@@ -651,7 +670,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_establishment`;
 
 DROP VIEW IF EXISTS `final_establishment`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_establishment`  AS  select `establishment`.`ID_ESTABLISHMENT` AS `ID_ESTABLISHMENT`,`establishment`.`ID_COMPANY` AS `ID_COMPANY`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`company`.`ACTIVITY_SECTOR` AS `ACTIVITY_SECTOR`,`company`.`NUMBER_OF_STUDENTS` AS `NUMBER_OF_STUDENTS`,`establishment`.`NUM_SIRET` AS `NUM_SIRET`,`establishment`.`NUM_SIREN` AS `NUM_SIREN` from (`establishment` join `company` on((`company`.`ID_COMPANY` = `establishment`.`ID_COMPANY`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_establishment`  AS  select `establishment`.`ID_ESTABLISHMENT` AS `ID_ESTABLISHMENT`,`establishment`.`ID_COMPANY` AS `ID_COMPANY`,`establishment`.`NUM_SIRET` AS `NUM_SIRET`,`establishment`.`NUM_SIREN` AS `NUM_SIREN`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`company`.`ACTIVITY_SECTOR` AS `ACTIVITY_SECTOR`,`company`.`NUMBER_OF_STUDENTS` AS `NUMBER_OF_STUDENTS`,`company`.`LOGO` AS `LOGO` from (`establishment` join `company` on((`company`.`ID_COMPANY` = `establishment`.`ID_COMPANY`))) ;
 
 -- --------------------------------------------------------
 
@@ -661,7 +680,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_evaluate`;
 
 DROP VIEW IF EXISTS `final_evaluate`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_evaluate`  AS  select `evaluate`.`ID_USER` AS `ID_USER`,`evaluate`.`ID_OFFER` AS `ID_OFFER`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`promotion`.`PROMOTION_NAME` AS `PROMOTION_NAME`,`role`.`ROLE_NAME` AS `ROLE_NAME`,`final_center`.`TOWN_NAME` AS `TOWN_NAME`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`TRUST` AS `TRUST`,`offer`.`SALARY` AS `SALARY`,`evaluate`.`EVALUATION` AS `EVALUATION` from (((((((`evaluate` join `user` on((`evaluate`.`ID_USER` = `user`.`ID_USER`))) join `promotion` on((`promotion`.`ID_PROMOTION` = `user`.`ID_PROMOTION`))) join `associate_role` on((`associate_role`.`ID_USER` = `user`.`ID_USER`))) join `role` on((`role`.`ID_ROLE` = `associate_role`.`ID_ROLE`))) join `final_center` on((`final_center`.`ID_CENTER` = `role`.`ID_CENTER`))) join `offer` on((`evaluate`.`ID_OFFER` = `offer`.`ID_OFFER`))) join `company` on((`company`.`ID_COMPANY` = `offer`.`ID_COMPANY`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_evaluate`  AS  select `evaluate`.`ID_USER` AS `ID_USER`,`evaluate`.`ID_OFFER` AS `ID_OFFER`,`evaluate`.`EVALUATION` AS `EVALUATION`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE` from ((`evaluate` join `user` on((`user`.`ID_USER` = `evaluate`.`ID_USER`))) join `offer` on((`offer`.`ID_OFFER` = `evaluate`.`ID_OFFER`))) ;
 
 -- --------------------------------------------------------
 
@@ -671,17 +690,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_link`;
 
 DROP VIEW IF EXISTS `final_link`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_link`  AS  select `link`.`ID_SKILL` AS `ID_SKILL`,`link`.`ID_USER` AS `ID_USER`,`skill`.`SKILL_NAME` AS `SKILL_NAME`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME` from ((`link` join `user` on((`user`.`ID_USER` = `link`.`ID_USER`))) join `skill` on((`skill`.`ID_SKILL` = `link`.`ID_SKILL`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure de la vue `final_locate`
---
-DROP TABLE IF EXISTS `final_locate`;
-
-DROP VIEW IF EXISTS `final_locate`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_locate`  AS  select `locate`.`ID_ADDRESS` AS `ID_ADDRESS`,`locate`.`ID_COMPANY` AS `ID_COMPANY`,`town`.`TOWN_NAME` AS `TOWN_NAME`,`address`.`STREET` AS `STREET`,`address`.`NUMBER` AS `NUMBER`,`address`.`POSTAL_CODE` AS `POSTAL_CODE`,`address`.`COMPLEMENT` AS `COMPLEMENT`,`company`.`COMPANY_NAME` AS `COMPANY_NAME` from (((`locate` join `address` on((`address`.`ID_ADDRESS` = `locate`.`ID_ADDRESS`))) join `town` on((`town`.`ID_TOWN` = `address`.`ID_TOWN`))) join `company` on((`company`.`ID_COMPANY` = `locate`.`ID_COMPANY`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_link`  AS  select `link`.`ID_SKILL` AS `ID_SKILL`,`link`.`ID_USER` AS `ID_USER`,`skill`.`SKILL_NAME` AS `SKILL_NAME`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE` from ((`link` join `skill` on((`skill`.`ID_SKILL` = `link`.`ID_SKILL`))) join `user` on((`user`.`ID_USER` = `link`.`ID_USER`))) ;
 
 -- --------------------------------------------------------
 
@@ -691,7 +700,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_offer`;
 
 DROP VIEW IF EXISTS `final_offer`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_offer`  AS  select `offer`.`ID_OFFER` AS `ID_OFFER`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from (`offer` join `company` on((`company`.`ID_COMPANY` = `offer`.`ID_COMPANY`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_offer`  AS  select `offer`.`ID_OFFER` AS `ID_OFFER`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES`,`company`.`COMPANY_NAME` AS `COMPANY_NAME`,`company`.`ACTIVITY_SECTOR` AS `ACTIVITY_SECTOR`,`company`.`NUMBER_OF_STUDENTS` AS `NUMBER_OF_STUDENTS` from (`offer` join `company` on((`company`.`ID_COMPANY` = `offer`.`ID_COMPANY`))) ;
 
 -- --------------------------------------------------------
 
@@ -701,7 +710,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `final_user`;
 
 DROP VIEW IF EXISTS `final_user`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_user`  AS  select `user`.`ID_USER` AS `ID_USER`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`promotion`.`PROMOTION_NAME` AS `PROMOTION_NAME`,`town`.`TOWN_NAME` AS `TOWN_NAME`,`address`.`STREET` AS `STREET`,`address`.`NUMBER` AS `NUMBER`,`address`.`POSTAL_CODE` AS `POSTAL_CODE`,`address`.`COMPLEMENT` AS `COMPLEMENT`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE` from (((`user` join `promotion` on((`promotion`.`ID_PROMOTION` = `user`.`ID_PROMOTION`))) join `address` on((`address`.`ID_ADDRESS` = `user`.`ID_ADDRESS`))) join `town` on((`address`.`ID_TOWN` = `town`.`ID_TOWN`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_user`  AS  select `user`.`ID_USER` AS `ID_USER`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE`,`promotion`.`PROMOTION_NAME` AS `PROMOTION_NAME`,`address`.`ID_TOWN` AS `ID_TOWN`,`address`.`STREET` AS `STREET`,`address`.`NUMBER` AS `NUMBER`,`address`.`POSTAL_CODE` AS `POSTAL_CODE`,`address`.`COMPLEMENT` AS `COMPLEMENT` from ((`user` join `promotion` on((`promotion`.`ID_PROMOTION` = `user`.`ID_PROMOTION`))) join `address` on((`address`.`ID_ADDRESS` = `user`.`ID_ADDRESS`))) ;
 COMMIT;
+
 
 
