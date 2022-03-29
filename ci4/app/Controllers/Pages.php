@@ -16,4 +16,9 @@ class Pages extends BaseController
 
         echo view('pages/index', $data);
     }
+
+    public function testQuery()
+    {
+        
+    }
 }
