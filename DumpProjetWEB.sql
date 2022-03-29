@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* Nom de SGBD :  MySQL 5.0                                     */
-/* Date de cr�ation :  29/03/2022 09:47:01                      */
+/* Date de cr�ation :  29/03/2022 19:32:41                      */
 /*==============================================================*/
 
 
@@ -23,6 +23,8 @@ drop table if exists EVALUATE;
 drop table if exists FOLLOW;
 
 drop table if exists LINK;
+
+drop table if exists LINK_TO;
 
 drop table if exists LOCATE;
 
@@ -89,7 +91,7 @@ DELIMITER ;
 /*==============================================================*/
 create table ADDRESS
 (
-   ID_ADDRESS           int not null AUTO_INCREMENT,
+   ID_ADDRESS           int not null,
    ID_TOWN              int not null,
    STREET               varchar(255) not null,
    NUMBER               varchar(5) not null,
@@ -188,7 +190,7 @@ INSERT INTO `bind` (`ID_SKILL`, `ID_OFFER`) VALUES
 /*==============================================================*/
 create table CENTER
 (
-   ID_CENTER            int not null AUTO_INCREMENT,
+   ID_CENTER            int not null,
    ID_TOWN              int not null,
    primary key (ID_CENTER)
 );
@@ -201,7 +203,7 @@ INSERT INTO `center` (`ID_CENTER`, `ID_TOWN`) VALUES
 /*==============================================================*/
 create table COMPANY
 (
-   ID_COMPANY           int not null AUTO_INCREMENT,
+   ID_COMPANY           int not null,
    COMPANY_NAME         varchar(40) not null,
    ACTIVITY_SECTOR      varchar(40) not null,
    NUMBER_OF_STUDENTS   int not null,
@@ -220,7 +222,7 @@ INSERT INTO `company` (`ID_COMPANY`, `COMPANY_NAME`, `ACTIVITY_SECTOR`, `NUMBER_
 /*==============================================================*/
 create table ESTABLISHMENT
 (
-   ID_ESTABLISHMENT     int not null AUTO_INCREMENT,
+   ID_ESTABLISHMENT     int not null,
    ID_COMPANY           int not null,
    NUM_SIRET            varchar(255) not null,
    NUM_SIREN            varchar(255) not null,
@@ -354,6 +356,24 @@ INSERT INTO `link` (`ID_SKILL`, `ID_USER`) VALUES
 (20, 5),
 (20, 7);
 
+/*==============================================================*/
+/* Table : LINK_TO                                              */
+/*==============================================================*/
+create table LINK_TO
+(
+   ID_CENTER            int not null,
+   ID_USER              int not null,
+   primary key (ID_CENTER, ID_USER)
+);
+
+INSERT INTO `link_to` (`ID_CENTER`, `ID_USER`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7);
 
 /*==============================================================*/
 /* Table : LOCATE                                               */
@@ -376,7 +396,7 @@ INSERT INTO `locate` (`ID_ADDRESS`, `ID_COMPANY`) VALUES
 /*==============================================================*/
 create table LOG
 (
-   ID_LOG               int not null AUTO_INCREMENT,
+   ID_LOG               int not null,
    ID_USER              int not null,
    ACTION               varchar(255) not null,
    LOG_DATE             date not null,
@@ -388,7 +408,7 @@ create table LOG
 /*==============================================================*/
 create table OFFER
 (
-   ID_OFFER             int not null AUTO_INCREMENT,
+   ID_OFFER             int not null,
    ID_COMPANY           int not null,
    OFFER_NAME           varchar(40) not null,
    MISSION              text not null,
@@ -422,7 +442,7 @@ create table OFFER_STEP
 /*==============================================================*/
 create table PROMOTION
 (
-   ID_PROMOTION         int not null AUTO_INCREMENT,
+   ID_PROMOTION         int not null,
    PROMOTION_NAME       varchar(40) not null,
    primary key (ID_PROMOTION)
 );
@@ -442,25 +462,23 @@ INSERT INTO `promotion` (`ID_PROMOTION`, `PROMOTION_NAME`) VALUES
 /*==============================================================*/
 create table ROLE
 (
-   ID_ROLE              int not null AUTO_INCREMENT,
-   ID_CENTER            int not null,
+   ID_ROLE              int not null,
    ROLE_NAME            varchar(40) not null,
    primary key (ID_ROLE)
 );
 
-INSERT INTO `role` (`ID_ROLE`, `ID_CENTER`, `ROLE_NAME`) VALUES
-(1, 1, 'Administrateur'),
-(2, 1, 'Pilote'),
-(3, 1, 'Délégué'),
-(4, 1, 'Etudiant');
-
+INSERT INTO `role` (`ID_ROLE`, `ROLE_NAME`) VALUES
+(1, 'Administrateur'),
+(2, 'Pilote'),
+(3, 'Délégué'),
+(4, 'Etudiant');
 
 /*==============================================================*/
 /* Table : SKILL                                                */
 /*==============================================================*/
 create table SKILL
 (
-   ID_SKILL             int not null AUTO_INCREMENT,
+   ID_SKILL             int not null,
    SKILL_NAME           longtext not null,
    primary key (ID_SKILL)
 );
@@ -492,7 +510,7 @@ INSERT INTO `skill` (`ID_SKILL`, `SKILL_NAME`) VALUES
 /*==============================================================*/
 create table TOWN
 (
-   ID_TOWN              int not null AUTO_INCREMENT,
+   ID_TOWN              int not null,
    TOWN_NAME            varchar(120) not null,
    primary key (ID_TOWN)
 );
@@ -506,12 +524,13 @@ INSERT INTO `town` (`ID_TOWN`, `TOWN_NAME`) VALUES
 (6, 'Saint-Etienne du Rouvray'),
 (7, 'Cléon');
 
+
 /*==============================================================*/
 /* Table : USER                                                 */
 /*==============================================================*/
 create table USER
 (
-   ID_USER              int not null AUTO_INCREMENT,
+   ID_USER              int not null,
    ID_ADDRESS           int not null,
    ID_PROMOTION         int not null,
    LAST_NAME            varchar(40) not null,
@@ -546,103 +565,85 @@ create table WHISHLIST
 );
 
 alter table ADDRESS add constraint FK_CORRESPONDENCE foreign key (ID_TOWN)
-      references TOWN (ID_TOWN) on delete cascade on update restrict;
+      references TOWN (ID_TOWN) on delete restrict on update restrict;
 
 alter table APPLY_AT add constraint FK_APPLY_AT foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
+      references OFFER (ID_OFFER) on delete restrict on update restrict;
 
 alter table APPLY_AT add constraint FK_APPLY_AT2 foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table ASSOCIATE_ROLE add constraint FK_ASSOCIATE_ROLE foreign key (ID_ROLE)
-      references ROLE (ID_ROLE) on delete CASCADE on update restrict;
+      references ROLE (ID_ROLE) on delete restrict on update restrict;
 
 alter table ASSOCIATE_ROLE add constraint FK_ASSOCIATE_ROLE2 foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table BIND add constraint FK_BIND foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
+      references OFFER (ID_OFFER) on delete restrict on update restrict;
 
 alter table BIND add constraint FK_BIND2 foreign key (ID_SKILL)
-      references SKILL (ID_SKILL) on delete CASCADE on update restrict;
+      references SKILL (ID_SKILL) on delete restrict on update restrict;
 
 alter table CENTER add constraint FK_LOCATE_IN foreign key (ID_TOWN)
-      references TOWN (ID_TOWN) on delete CASCADE on update restrict;
+      references TOWN (ID_TOWN) on delete restrict on update restrict;
 
 alter table ESTABLISHMENT add constraint FK_CORRESPONDS_TO foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
+      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
 
 alter table EVALUATE add constraint FK_EVALUATE foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
+      references OFFER (ID_OFFER) on delete restrict on update restrict;
 
 alter table EVALUATE add constraint FK_EVALUATE2 foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table FOLLOW add constraint FK_FOLLOW foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
+      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
 
 alter table FOLLOW add constraint FK_FOLLOW2 foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table LINK add constraint FK_LINK foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table LINK add constraint FK_LINK2 foreign key (ID_SKILL)
-      references SKILL (ID_SKILL) on delete CASCADE on update restrict;
+      references SKILL (ID_SKILL) on delete restrict on update restrict;
+
+alter table LINK_TO add constraint FK_LINK_TO foreign key (ID_USER)
+      references USER (ID_USER) on delete restrict on update restrict;
+
+alter table LINK_TO add constraint FK_LINK_TO2 foreign key (ID_CENTER)
+      references CENTER (ID_CENTER) on delete restrict on update restrict;
 
 alter table LOCATE add constraint FK_LOCATE foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
+      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
 
 alter table LOCATE add constraint FK_LOCATE2 foreign key (ID_ADDRESS)
-      references ADDRESS (ID_ADDRESS) on delete CASCADE on update restrict;
+      references ADDRESS (ID_ADDRESS) on delete restrict on update restrict;
 
 alter table LOG add constraint FK_LINK_LOG foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table OFFER add constraint FK_BE_PART_OF foreign key (ID_COMPANY)
-      references COMPANY (ID_COMPANY) on delete CASCADE on update restrict;
+      references COMPANY (ID_COMPANY) on delete restrict on update restrict;
 
 alter table OFFER_STEP add constraint FK_OFFER_STEP foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
+      references OFFER (ID_OFFER) on delete restrict on update restrict;
 
 alter table OFFER_STEP add constraint FK_OFFER_STEP2 foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
-
-alter table ROLE add constraint FK_LINK_TO foreign key (ID_CENTER)
-      references CENTER (ID_CENTER) on delete CASCADE on update restrict;
+      references USER (ID_USER) on delete restrict on update restrict;
 
 alter table USER add constraint FK_ASSOCIATE_PROMOTION foreign key (ID_PROMOTION)
-      references PROMOTION (ID_PROMOTION) on delete CASCADE on update restrict;
+      references PROMOTION (ID_PROMOTION) on delete restrict on update restrict;
 
 alter table USER add constraint FK_LIVE foreign key (ID_ADDRESS)
-      references ADDRESS (ID_ADDRESS) on delete CASCADE on update restrict;
+      references ADDRESS (ID_ADDRESS) on delete restrict on update restrict;
 
 alter table WHISHLIST add constraint FK_WHISHLIST foreign key (ID_OFFER)
-      references OFFER (ID_OFFER) on delete CASCADE on update restrict;
+      references OFFER (ID_OFFER) on delete restrict on update restrict;
 
 alter table WHISHLIST add constraint FK_WHISHLIST2 foreign key (ID_USER)
-      references USER (ID_USER) on delete CASCADE on update restrict;
-
-
---
--- Structure de la vue `final_apply_at`
---
-DROP TABLE IF EXISTS `final_apply_at`;
-
-DROP VIEW IF EXISTS `final_apply_at`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_apply_at`  AS  select `apply_at`.`ID_USER` AS `ID_USER`,`apply_at`.`ID_OFFER` AS `ID_OFFER`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from ((`apply_at` join `user` on((`user`.`ID_USER` = `apply_at`.`ID_USER`))) join `offer` on((`offer`.`ID_OFFER` = `apply_at`.`ID_OFFER`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure de la vue `final_associate_role`
---
-DROP TABLE IF EXISTS `final_associate_role`;
-
-DROP VIEW IF EXISTS `final_associate_role`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_associate_role`  AS  select `associate_role`.`ID_USER` AS `ID_USER`,`associate_role`.`ID_ROLE` AS `ID_ROLE`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE`,`offer`.`ID_COMPANY` AS `ID_COMPANY`,`offer`.`OFFER_NAME` AS `OFFER_NAME`,`offer`.`MISSION` AS `MISSION`,`offer`.`SALARY` AS `SALARY`,`offer`.`MIN_DURATION` AS `MIN_DURATION`,`offer`.`MAX_DURATION` AS `MAX_DURATION`,`offer`.`OFFER_DATE` AS `OFFER_DATE`,`offer`.`TRUST` AS `TRUST`,`offer`.`NUMBER_OF_PLACES` AS `NUMBER_OF_PLACES` from ((`associate_role` join `user` on((`user`.`ID_USER` = `associate_role`.`ID_USER`))) join `offer` on((`offer`.`ID_OFFER` = `associate_role`.`ID_ROLE`))) ;
-
--- --------------------------------------------------------
+      references USER (ID_USER) on delete restrict on update restrict;
 
 --
 -- Structure de la vue `final_bind`
@@ -712,6 +713,3 @@ DROP TABLE IF EXISTS `final_user`;
 DROP VIEW IF EXISTS `final_user`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `final_user`  AS  select `user`.`ID_USER` AS `ID_USER`,`user`.`ID_PROMOTION` AS `ID_PROMOTION`,`user`.`ID_ADDRESS` AS `ID_ADDRESS`,`user`.`LAST_NAME` AS `LAST_NAME`,`user`.`FIRST_NAME` AS `FIRST_NAME`,`user`.`EMAIL` AS `EMAIL`,`user`.`PHONE_NUMBER` AS `PHONE_NUMBER`,`user`.`BIRTHDAY` AS `BIRTHDAY`,`user`.`PASSWORD` AS `PASSWORD`,`user`.`CV` AS `CV`,`user`.`MOTIVATION_LETTER` AS `MOTIVATION_LETTER`,`user`.`DRIVER_LICENSE` AS `DRIVER_LICENSE`,`promotion`.`PROMOTION_NAME` AS `PROMOTION_NAME`,`address`.`ID_TOWN` AS `ID_TOWN`,`address`.`STREET` AS `STREET`,`address`.`NUMBER` AS `NUMBER`,`address`.`POSTAL_CODE` AS `POSTAL_CODE`,`address`.`COMPLEMENT` AS `COMPLEMENT` from ((`user` join `promotion` on((`promotion`.`ID_PROMOTION` = `user`.`ID_PROMOTION`))) join `address` on((`address`.`ID_ADDRESS` = `user`.`ID_ADDRESS`))) ;
 COMMIT;
-
-
-
