@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 29 mars 2022 à 17:46
+-- Généré le : ven. 01 avr. 2022 à 12:57
 -- Version du serveur :  5.7.31
--- Version de PHP : 7.3.21
+-- Version de PHP : 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -849,6 +849,21 @@ CREATE TABLE IF NOT EXISTS `whishlist` (
   PRIMARY KEY (`ID_USER`,`ID_OFFER`),
   KEY `FK_WHISHLIST` (`ID_OFFER`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `whishlist`
+--
+
+INSERT INTO `whishlist` (`ID_USER`, `ID_OFFER`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(3, 2),
+(3, 3),
+(4, 2),
+(5, 3);
 
 -- --------------------------------------------------------
 
