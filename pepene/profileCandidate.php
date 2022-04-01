@@ -11,6 +11,133 @@
 </head>
 <body>
 
+<?php
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+
+    //On essaie de se connecter
+    try{
+      $conn = new PDO("mysql:host=$servername;dbname=projetweb", $username, $password);
+      //On définit le mode d'erreur de PDO sur Exception
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $queryUser = $conn->prepare("SELECT* FROM user WHERE promotion.ID_PROMOTION = '" . $user['ID_PROMOTION'] . "' LIMIT 1");
+      $queryUser->execute();
+
+      $data = $queryUser->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data as $row)
+      {
+        $user["ID_USER"] = $row["ID_USER"];
+        $user["ID_ADDRESS"] = $row["ID_ADDRESS"];
+        $user["ID_PROMOTION"] = $row["ID_PROMOTION"];
+        $user["LAST_NAME"] = $row["LAST_NAME"];
+        $user["FIRST_NAME"] = $row["FIRST_NAME"];
+        $user["EMAIL"] = $row["EMAIL"];
+        $user["PHONE_NUMBER"] = $row["PHONE_NUMBER"];
+        $user["BIRTHDAY"] = $row["BIRTHDAY"];
+        $user["PASSWORD"] = $row["PASSWORD"];
+      }
+
+      $queryPromotion = $conn->prepare("SELECT * FROM promotion WHERE promotion.ID_PROMOTION = '" . $user['ID_PROMOTION'] . "' LIMIT 1");
+      $queryPromotion->execute();
+
+      $data1 = $queryPromotion->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data1 as $row)
+      {
+        $promotion["ID_PROMOTION"] = $row["ID_PROMOTION"];
+        $promotion["PROMOTION_NAME"] = $row["PROMOTION_NAME"];
+      }
+
+      $queryAddress = $conn->prepare("SELECT * FROM address WHERE address.ID_ADDRESS = " . $user['ID_ADDRESS'] . " LIMIT 1");
+      $queryAddress->execute();
+
+      $data2 = $queryAddress->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data2 as $row)
+      {
+        $address["ID_ADDRESS"] = $row["ID_ADDRESS"];
+        $address["ID_TOWN"] = $row["ID_TOWN"];
+        $address["STREET"] = $row["STREET"];
+        $address["NUMBER"] = $row["NUMBER"];
+        $address["POSTAL_CODE"] = $row["POSTAL_CODE"];
+        $address["COMPLEMENT"] = $row["COMPLEMENT"];
+      }
+
+      $queryTown = $conn->prepare("SELECT * FROM town WHERE town.ID_TOWN = " . $address['ID_TOWN']);
+      $queryTown->execute();
+
+      $data3 = $queryTown->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data3 as $row)
+      {
+        $town["ID_TOWN"] = $row["ID_TOWN"];
+        $town["TOWN_NAME"] = $row["TOWN_NAME"];
+      }
+
+      $queryLink = $conn->prepare("SELECT * FROM link WHERE link.ID_USER = " . $user['ID_USER']);
+      $queryLink->execute();
+
+      $data4 = $queryLink->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data4 as $row)
+      {
+        $link["ID_SKILL"] = $row["ID_SKILL"];
+        $link["ID_USER"] = $row["ID_USER"];
+      }
+
+      $querySkill = $conn->prepare("SELECT * FROM skill WHERE skill.ID_SKILL = " . $link['ID_SKILL']);
+      $querySkill->execute();
+
+      $data5 = $querySkill->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data5 as $row)
+      {
+        $skill["ID_SKILL"] = $row["ID_SKILL"];
+        $skill["SKILL_NAME"] = $row["SKILL_NAME"];
+      }
+
+      $queryApplyAt = $conn->prepare("SELECT * FROM apply_at WHERE apply_at.ID_USER = " . $user['ID_USER']);
+      $queryApplyAt->execute();
+
+      $data6 = $queryApplyAt->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data6 as $row)
+      {
+        $applyAt["ID_USER"] = $row["ID_USER"];
+        $applyAt["ID_OFFER"] = $row["ID_OFFER"];
+      }
+
+
+      $queryOffers = $conn->prepare("SELECT * FROM final_offer WHERE final_offer.ID_OFFER = " . $applyAt['ID_OFFER']);
+      $queryOffers->execute();
+
+      $data7 = $queryOffers->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data7 as $row)
+      {
+        $offer["ID_OFFER"] = $row["ID_OFFER"];
+        $offer["ID_COMPANY"] = $row["ID_COMPANY"];
+        $offer["OFFER_NAME"] = $row["OFFER_NAME"];
+        $offer["MISSION"] = $row["MISSION"];
+        $offer["SALARY"] = $row["SALARY"];
+        $offer["MIN_DURATION"] = $row["MIN_DURATION"];
+        $offer["MAX_DURATION"] = $row["MAX_DURATION"];
+        $offer["OFFER_DATE"] = $row["OFFER_DATE"];
+        $offer["TRUST"] = $row["TRUST"];
+        $offer["NUMBER_OF_PLACES"] = $row["NUMBER_OF_PLACES"];
+        $offer["COMPANY_NAME"] = $row["COMPANY_NAME"];
+        $offer["ACTIVTY_SECTOR"] = $row["ACTIVTY_SECTOR"];
+        $offer["NUMBER_OF_STUDENTS"] = $row["NUMBER_OF_STUDENTS"];
+      }
+    }
+    catch(PDOException $e){
+      echo "Erreur : " . $e->getMessage();
+    }
+?>
+
 
     <div class="hero" id="heroProfile">
         <nav id="homenav">
@@ -67,7 +194,7 @@
                 <div id="row">
         <div class="sub-entry" id="sub-entry1">
                     <label for="firstName">First Name</label>
-                    <input id="firstName" class ="postInput" type="text" required/> 
+                    <input id="firstName" class ="postInput" type="text" value="" required/> 
 
                     <label for="lastName">Last Name</label>
                     <input id="lastName" class ="postInput" type="text" required/> 
