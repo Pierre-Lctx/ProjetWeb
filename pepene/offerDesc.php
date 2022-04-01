@@ -1,3 +1,29 @@
+<?php
+
+include "classes.php";
+
+$recipe = new Offer();
+
+$descdOffer = $recipe->offerDesc();
+
+foreach ($descdOffer as $row)       
+{         
+  $offer["ID_OFFER"] = $row["ID_OFFER"];         
+  $offer["COMPANY_NAME"] = $row["COMPANY_NAME"];         
+  $offer["OFFER_NAME"] = $row["OFFER_NAME"];         
+  $offer["SKILL_NAME"] = $row["SKILL_NAME"];         
+  $offer["MISSION"] = $row["MISSION"];         
+  $offer["SALARY"] = $row["SALARY"];         
+  $offer["TOWN_NAME"] = $row["TOWN_NAME"];         
+  $offer["MIN_DURATION"] = $row["MIN_DURATION"];         
+  $offer["MAX_DURATION"] = $row["MAX_DURATION"];  
+  $offer["NUMBER_OF_PLACES"] = $row["NUMBER_OF_PLACES"]; 
+  $offer["TRUST"] = $row["TRUST"]; 
+     }
+
+
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +64,7 @@
 
     <div class="hero-text">
         
-        <h1 id="offerCompName">Company name or offers name</h1>
+        <h1 id="offerCompName"><?php print_r($offer['OFFER_NAME']. ' ' ) ?> - <?php print_r(' '.$offer['COMPANY_NAME'] ) ?></h1>
 
     </div>
 
@@ -56,62 +82,58 @@
         </div>
 
 <div id="Offersname">
-  <h2>Offer's Name</h2>
+  <h2> <?php print_r($offer['OFFER_NAME'] ) ?></h2>
 </div>
 
 <div id="companyname">
-  <h2>Company Name</h2>
+  <h2><?php print_r($offer['COMPANY_NAME'] ) ?></h2>
   <p></p>
 </div>
 
 
 <div id="requiredskills">
-  <h2>Required Skills</h2>
+  <h2><?php print_r($offer['SKILL_NAME'] ) ?></h2>
   <p></p>
 </div>
 
 <div id="salary">
-  <h2>Salary</h2>
+  <h2><?php print_r($offer['SALARY'].' ') ?>€</h2>
   <p></p>
 </div>
 
 <div id="offerdescription">
   <h2>Offer Description</h2>
   <div id="descBox">
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt fugit similique blanditiis laboriosam laudantium soluta asperiores non, temporibus hic dolorem, est tempore! Vitae maiores laboriosam, vero sed ducimus possimus iure?</p>
-  </div>
+      <p><?php print_r($offer['MISSION'] ) ?></p>
+    </div>
 
 </div>
 
-<div id="requiredskills">
-  <h2>Required Skills</h2>
-  <p></p>
-</div>
 
 <div id="cityLocation">
   <h2>City / Location</h2>
-  <p></p>
+  <p><?php print_r($offer['TOWN_NAME'] ) ?></p>
 </div>
 
 <div id="startingdate">
   <h2>Starting date</h2>
-  <p></p>
+  <p><?php print_r($offer['MIN_DURATION'] ) ?></p>
 </div>
 
 <div id="endingdate">
   <h2>Ending date</h2>
-  <p></p>
+  <p><?php print_r($offer['MAX_DURATION'] ) ?></p>
 </div>
 
 <div id="numberofinterns">
   <h2>Number of Interns</h2>
-  <p></p>
+  <p><?php print_r($offer['NUMBER_OF_PLACES'] ) ?></p>
 </div>
 
 
 <div id="trust">
   <h2>Pilot's Trust</h2>
-  <p></p>
+  <p><?php print_r($offer['TRUST'] ) ?></p>
 </div>
 
 <div class= "post">
