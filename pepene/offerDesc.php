@@ -17,17 +17,17 @@
   
         <ul>
   
-          <li><a href="a-home.html">Home</a></li>
-          <li><a href="offers.html">Offers</a></li>
-          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="a-home.php">Home</a></li>
+          <li><a href="offers.php">Offers</a></li>
+          <li><a href="wishlist.php">Wishlist</a></li>
   
           <li id="deroulant"> <a id="cache" href="#">Employer</a>
           <ul>
-            <li ><a class="employer hidden" href="post.html">Post an offer</a></li>
-            <li ><a class="employer hidden" href="#">Something</a></li>
+            <li ><a class="employer hidden" href="post.php">Post an offer</a></li>
+            <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
           </ul>
         </li>
-        <li><a href="profile.html">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
+        <li><a href="profile.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
       </ul>
        
       </nav>
