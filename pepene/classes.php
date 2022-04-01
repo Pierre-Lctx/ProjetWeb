@@ -4,6 +4,7 @@ class Connexion
     {
         private string $queryMail = "SELECT * FROM user where EMAIL Like ? ";
         private string $queryPwd = "SELECT * FROM user INNER JOIN `associate_role` on associate_role.ID_USER=user.ID_USER INNER JOIN `role` on associate_role.ID_ROLE=role.ID_ROLE where PASSWORD Like ? and EMAIL like ? ";
+        private string $queryNew = "INSERT INTO `user` (EMAIL, PASSWORD) values (? , ?);";
         private string $Email= "";
         private string $passwordLogin= "";
         private string $servername = 'localhost';
@@ -11,6 +12,7 @@ class Connexion
         private string $password_db = '';
         private $conn;
         private $connMail;
+        private $connCreer;
         private $result0;
         private $connPwd;
         private $result1;
@@ -21,6 +23,10 @@ class Connexion
             $this->Email= htmlspecialchars($_POST['E-mail']);
             $this->passwordLogin= htmlspecialchars($_POST['Password']);
         }
+        public function ID_create(){
+            $this->Email= htmlspecialchars($_POST['n_email']);
+            $this->passwordLogin= htmlspecialchars($_POST['n_password']);
+        }
         public function connecter_site(){
             if (isset($_POST['E-mail']) &&  isset($_POST['Password'])) {
                 $this->IDs();
@@ -30,7 +36,7 @@ class Connexion
                     //On définit le mode d'erreur de PDO sur Exception
                     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     if ($this->Email==""){
-                        echo "Rentrez un E-mail svp";
+                        echo "<script>alert(\"Entrez un E-mail svp\")</script>";
                     }
                     else {
                         $this->connMail = $this->conn->prepare($this->queryMail);
@@ -38,7 +44,7 @@ class Connexion
                         $this->connMail->execute();
                         $this->result0 = $this->connMail->fetchAll(PDO::FETCH_BOTH);
                         if ($this->connMail->rowCount()==0){
-                            echo "Cet Email n'existe pas";
+                            echo "<script>alert(\"Cet Email n'existe pas\")</script>";
                         }
                         else {
                             $this->connPwd = $this->conn->prepare($this->queryPwd);
@@ -47,7 +53,7 @@ class Connexion
                             $this->connPwd->execute();
                             $this->result1 = $this->connPwd->fetchAll(PDO::FETCH_BOTH);
                         if ($this->connPwd->rowCount()==0){
-                            echo "Ce mot de passe n'est pas bon";
+                            echo "<script>alert(\"Ce mot de passe n'est pas bon\")</script>";
                         }
                         else {
                             echo "Connexion réussie";
@@ -88,9 +94,50 @@ class Connexion
                 }
             }
         }
+        public function inscription_site(){
+            if (isset($_POST['n_email']) &&  isset($_POST['n_password'])) {
+                $this->ID_create();
+                 //On essaie de se connecter
+                try{
+                    $this->conn = new PDO("mysql:host=$this->servername;dbname=projetweb", $this->username, $this->password_db);
+                    //On définit le mode d'erreur de PDO sur Exception
+                    $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    if ($this->Email==""){
+                        echo "<script>alert(\"Rentrez un Email!\")</script>";
+                    }
+                    else {
+                        $this->connMail = $this->conn->prepare($this->queryMail);
+                        $this->connMail->bindValue(1,$this->Email, PDO::PARAM_STR);
+                        $this->connMail->execute();
+                        if ($this->connMail->rowCount()==0){
+                            $this->connCreer = $this->conn->prepare($this->queryNew);
+                            $this->connCreer->bindValue(1,$this->Email, PDO::PARAM_STR );
+                            $this->connCreer->bindValue(2,$this->passwordLogin, PDO::PARAM_STR );
+                            $this->connCreer->execute();
+                            echo "<script>alert(\"Compte Créé\")</script>";
+                            header("Location: home-nouv.php");
+                        }
+                        else {
+                            echo "<script>alert(\"Ce compte existe déjà!\")</script>";
+                        
+                        }
+                        }
+                        
+                }
+            
+                    
+                
+                /*On capture les exceptions si une exception est lancée et on affiche
+                 *les informations relatives à celle-ci*/
+                catch(PDOException $e){
+                  echo "Erreur : " . $e->getMessage();
+                }
+            }
+            
+        }
     }
 class entreprise {
-        
+
 }   
     
 

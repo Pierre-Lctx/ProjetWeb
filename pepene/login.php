@@ -16,9 +16,9 @@
 		<form action="login.php" method="post">
 			<h1>Create an Account</h1> <br>
 
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button >Sign Up</button>
+			<input type="email" name="n_email" placeholder="Email" />
+			<input type="password" name="n_password" placeholder="Password" />
+			<input type="submit" class="submit" value="Sign Up"/>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
@@ -61,7 +61,7 @@ include "classes.php";
 $login= new Connexion();
 
 $login->connecter_site();
-
+$login->inscription_site();
 
     ?>
 </body>
