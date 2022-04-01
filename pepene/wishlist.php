@@ -77,7 +77,7 @@
             <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
           </ul>
         </li>
-        <li><a href="profile.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
+        <li><a href="profileCandidate.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
       </ul>
        
       </nav>
@@ -131,7 +131,7 @@
                 ?>
               </h2>
               <p class="card_text"><?php echo($wish['MISSION']); ?></p>
-              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+              <button onclick="window.location.href='offerDesc.php';" class="btn card_btn">Read More</button>
             </div>
           </div>
         </li>
@@ -210,15 +210,15 @@
                   <ul class="nav_ul">
 
                     <li>
-                      <a href="a-home.html">Home</a>
+                      <a href="a-home.php">Home</a>
                     </li>
                     
                     <li>
-                      <a href="offers.html">Offers</a>
+                      <a href="offers.php">Offers</a>
                     </li>
                     
                     <li>
-                      <a href="wishlist.html">Wishlist</a>
+                      <a href="wishlist.php">Wishlist</a>
                     </li>
 
                   </ul>

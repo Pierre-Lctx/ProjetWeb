@@ -11,7 +11,18 @@
     <title>Un Pepene Internship</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css"> 
-    <link rel="stylesheet" type="text/css" href="css/b-footer2.css"> 
+    <link rel="stylesheet" type="text/css" href="css/b-footer2.css">
+    <meta name="theme-color" content="#ff0000"/>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/media/icon192.png">
+    <meta name="apple-mobile-web-app-status-bar" content="white">
+    <script>
+ 
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      };
+      
+    </script> 
 
 
 </head>
@@ -146,15 +157,15 @@
                   <ul class="nav_ul">
 
                     <li>
-                      <a href="a-home.html">Home</a>
+                      <a href="a-home.php">Home</a>
                     </li>
                     
                     <li>
-                      <a href="offers.html">Offers</a>
+                      <a href="offers.php">Offers</a>
                     </li>
                     
                     <li>
-                      <a href="wishlist.html">Wishlist</a>
+                      <a href="wishlist.php">Wishlist</a>
                     </li>
 
                   </ul>

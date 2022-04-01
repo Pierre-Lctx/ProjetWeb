@@ -1,14 +1,3 @@
-<?php
-
-include "classes.php";
-
-$recipe = new Offer();
-
-$cardOffer = $recipe->showOffer();
-
-
-    ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -22,33 +11,43 @@ $cardOffer = $recipe->showOffer();
     <title>Un Pepene Internship</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css"> 
-    <link rel="stylesheet" type="text/css" href="css/b-footer2.css"> 
-    <link rel="stylesheet" type="text/css" href="css/cards.css"> 
+    <link rel="stylesheet" type="text/css" href="css/b-footer2.css">
+    <meta name="theme-color" content="#ff0000"/>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/media/icon192.png">
+    <meta name="apple-mobile-web-app-status-bar" content="white">
+    <script>
+ 
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      };
+    </script> 
 
 
 </head>
 
 <body>  
 
-  <div class="hero" id="heroOffers">
+  <div class="hero" id="heroHome">
     <nav id="homenav">
 
       <h2 class="logo">Un Pepene Internship</h2>
 
       <ul>
-  
-          <li><a href="a-home.php">Home</a></li>
-          <li><a href="offers.php">Offers</a></li>
-          <li><a href="wishlist.php">Wishlist</a></li>
-  
-          <li id="deroulant"> <a id="cache" href="#">Employer</a>
-          <ul>
-            <li ><a class="employer hidden" href="post.php">Post an offer</a></li>
-            <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
-          </ul>
-        </li>
-        <li><a href="profileCandidate.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
-      </ul>
+
+        <li><a href="a-home.php">Home</a></li>
+        <li><a href="offers.php">Offers</a></li>
+        <li><a href="wishlist.php">Wishlist</a></li>
+
+        <li id="deroulant"> <a id="cache" href="#">Employer</a>
+        <ul>
+          <li ><a class="employer hidden" href="post.php">Post an offer</a></li>
+          <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Student</a></li>
+      <li><a href="profileCandidate.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
+    </ul>
      
    
     
@@ -57,8 +56,8 @@ $cardOffer = $recipe->showOffer();
 
 <div class = "middletext">
     <div class="hero-text">
-      <h1> Offers Page </h1> <br>
-      <h2> Browse the offers to find what suits you best ! </h2>
+      <h1>Sow the seeds of your future</h1> <br> <br>
+      <h2>Find your internship right now</h2>
     </div>
 
       <div class="search">
@@ -103,58 +102,6 @@ $cardOffer = $recipe->showOffer();
  
    
     </div>
-
-<div id="Offer">
-  <h1> Offers :</h1>
-  <hr class="solid">
-</div>
-
-    <div class="cardwishlist"></div>
-    <div class="cardwishlist"></div>
-    <div class="cardwishlist"></div>
-    <div class="cardwishlist"></div>
-
-
-
-    <div class="main">
-
-      <ul class="cards">
-       
-          <?php
-          foreach($cardOffer as $card):?>
-           <li class="cards_item">
-            <div class="card">
-            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon> Add to wishlist</button><img src="https://cdn.webnews.it/QnTWEyYTWDq8ynWxQODvb35dQUM=/2160x1350/smart/https://www.webnews.it/app/uploads/sites/2/2022/03/evento-apple-8-marzo-2022.jpg"></div>
-            <div class="card_content">
-              <h2 class="card_title"><?php echo $card['COMPANY_NAME']; echo(" - "); echo $card['OFFER_NAME'];?></h2>
-              <p class="card_text">We are looking for new talents, come join us !</p>
-              <form action="GET" action="classe.php"><button onclick="window.location.href='offerDesc.php?idOffer=1';" class="btn card_btn">Read More</button></form>
-
-            </div>
-          </div>
-          </li>
-            <?php endforeach ?>
-      </ul>
-    </div>
-    
- 
-
-
-    <div class="pagination"> 
-      <a href="#">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">5</a>
-  </div>
-
-  <br>   <br>   <br>   <br> 
-
-
-
-
-
-
 
 <footer>
 
@@ -257,7 +204,6 @@ $cardOffer = $recipe->showOffer();
 <script src="jquery/main.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
 
 </body>
 </html>

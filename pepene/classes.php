@@ -2,6 +2,7 @@
 
 class Connexion
     {
+
         private $querymail = "SELECT * FROM user where EMAIL Like ? ";
         private $querypwd = "SELECT * FROM user INNER JOIN `associate_role` on associate_role.ID_USER=user.ID_USER INNER JOIN `role` on associate_role.ID_ROLE=role.ID_ROLE where PASSWORD Like ? and EMAIL like ? ";
         private $Email= "";
@@ -10,16 +11,16 @@ class Connexion
         private $username = 'root';
         private $password_db = '';
         private $conn;
-        private $connmail;
+        private $connMail;
         private $result0;
-        private $connpwd;
+        private $connPwd;
         private $result1;
         private $row1;
 
 
         public function IDs(){
             $this->Email= htmlspecialchars($_POST['E-mail']);
-            $this->passwordlogin= htmlspecialchars($_POST['Password']);
+            $this->passwordLogin= htmlspecialchars($_POST['Password']);
         }
         public function connecter_site(){
             if (isset($_POST['E-mail']) &&  isset($_POST['Password'])) {
@@ -33,20 +34,20 @@ class Connexion
                         echo "Rentrez un E-mail svp";
                     }
                     else {
-                        $this->connmail = $this->conn->prepare($this->querymail);
-                        $this->connmail->bindValue(1,$this->Email, PDO::PARAM_STR);
-                        $this->connmail->execute();
-                        $this->result0 = $this->connmail->fetchAll(PDO::FETCH_BOTH);
-                        if ($this->connmail->rowCount()==0){
+                        $this->connMail = $this->conn->prepare($this->queryMail);
+                        $this->connMail->bindValue(1,$this->Email, PDO::PARAM_STR);
+                        $this->connMail->execute();
+                        $this->result0 = $this->connMail->fetchAll(PDO::FETCH_BOTH);
+                        if ($this->connMail->rowCount()==0){
                             echo "Cet Email n'existe pas";
                         }
                         else {
-                            $this->connpwd = $this->conn->prepare($this->querypwd);
-                            $this->connpwd->bindValue(1,$this->passwordlogin, PDO::PARAM_STR);
-                            $this->connpwd->bindValue(2,$this->Email, PDO::PARAM_STR);
-                            $this->connpwd->execute();
-                            $this->result1 = $this->connpwd->fetchAll(PDO::FETCH_BOTH);
-                        if ($this->connpwd->rowCount()==0){
+                            $this->connPwd = $this->conn->prepare($this->queryPwd);
+                            $this->connPwd->bindValue(1,$this->passwordLogin, PDO::PARAM_STR);
+                            $this->connPwd->bindValue(2,$this->Email, PDO::PARAM_STR);
+                            $this->connPwd->execute();
+                            $this->result1 = $this->connPwd->fetchAll(PDO::FETCH_BOTH);
+                        if ($this->connPwd->rowCount()==0){
                             echo "Ce mot de passe n'est pas bon";
                         }
                         else {
@@ -68,12 +69,12 @@ class Connexion
                             );
                             setcookie(
                                 'Password',
-                                $this->passwordlogin,
+                                $this->passwordLogin,
                                 [
                                     'expires' => time() + 365*24*3600,
                                 ]
                             );
-                            header("Location: a-home.php");
+                            header("Location: home-etud.php");
                         }
                         }
                         
@@ -90,10 +91,7 @@ class Connexion
         }
     }
 class entreprise {
-
-
-
-    
+        
 }   
     
 

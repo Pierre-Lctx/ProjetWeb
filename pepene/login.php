@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<a href="a-home.html" id="return"><ion-icon name="arrow-back-outline"></ion-icon> Return</a>
+	<a href="a-home.php" id="return"><ion-icon name="arrow-back-outline"></ion-icon> Return</a>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<form action="login.php" method="post">
