@@ -90,10 +90,7 @@ class Connexion
         }
     }
 class entreprise {
-
-
-
-    
+        
 }   
     
 
