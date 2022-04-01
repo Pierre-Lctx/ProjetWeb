@@ -2,14 +2,15 @@
 
 class Connexion
     {
-        private string $queryMail = "SELECT * FROM user where EMAIL Like ? ";
-        private string $queryPwd = "SELECT * FROM user INNER JOIN `associate_role` on associate_role.ID_USER=user.ID_USER INNER JOIN `role` on associate_role.ID_ROLE=role.ID_ROLE where PASSWORD Like ? and EMAIL like ? ";
-        private string $queryNew = "INSERT INTO `user` (EMAIL, PASSWORD) values (? , ?);";
-        private string $Email= "";
-        private string $passwordLogin= "";
-        private string $servername = 'localhost';
-        private string $username = 'root';
-        private string $password_db = '';
+
+        private $queryNew = "INSERT INTO `user` (EMAIL, PASSWORD) values (? , ?);";
+        private $querymail = "SELECT * FROM user where EMAIL Like ? ";
+        private $querypwd = "SELECT * FROM user INNER JOIN `associate_role` on associate_role.ID_USER=user.ID_USER INNER JOIN `role` on associate_role.ID_ROLE=role.ID_ROLE where PASSWORD Like ? and EMAIL like ? ";
+        private $Email= "";
+        private $passwordlogin= "";
+        private $servername = 'localhost';
+        private $username = 'root';
+        private $password_db = '';
         private $conn;
         private $connMail;
         private $connCreer;
@@ -143,10 +144,11 @@ class entreprise {
 
 class Offer
 {
-    private string $servername = 'localhost';
-    private string $username = 'root';
-    private string $password_db = '';
+    private $servername = 'localhost';
+    private $username = 'root';
+    private $password_db = '';
     private $conn;
+    private $idOffer;
 
     public function showOffer()
     {
@@ -176,11 +178,50 @@ class Offer
 
             catch(PDOException $e){
               echo "Erreur : " . $e->getMessage();
-            }
-
-       
+            }      
         
     }
+
+    public function setIdCard($id)
+    {
+        $idOffer = $id;
+    }
+
+
+    public function offerDesc()
+    {
+            $servername = 'localhost';
+            $username = 'root';
+            $password = '';
+
+            $idOfferDesc = 1;
+
+            //On essaie de se connecter
+            try{
+                $this->conn = new PDO("mysql:host=$servername;dbname=projetweb", $this->username, $this->password_db);
+                //On définit le mode d'erreur de PDO sur Exception
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ 
+                $manyOffer = $this->conn->prepare('SELECT final_offer.ID_OFFER, final_offer.COMPANY_NAME, final_offer.OFFER_NAME, final_bind.SKILL_NAME, final_offer.MISSION, final_offer.SALARY, final_offer.MISSION, town.TOWN_NAME, final_offer.MIN_DURATION, final_offer.MAX_DURATION, final_offer.NUMBER_OF_PLACES, final_offer.TRUST FROM final_offer inner join final_bind on final_bind.ID_OFFER = final_offer.ID_OFFER inner join locate on locate.ID_COMPANY = final_offer.ID_COMPANY inner join address on address.ID_ADDRESS = locate.ID_ADDRESS inner join town on address.ID_TOWN = town.ID_TOWN where final_offer.ID_OFFER = '. $idOfferDesc . ''
+                );  
+
+                $manyOffer->execute();
+                $recipeOffer = $manyOffer->fetchAll();
+
+                return $recipeOffer;
+
+            }
+
+
+            /*On capture les exceptions si une exception est lancée et on affiche
+             les informations relatives à celle-ci*/
+
+            catch(PDOException $e){
+              echo "Erreur : " . $e->getMessage();
+            } 
+    }
+
+
 }
            
             
