@@ -13,7 +13,7 @@
 	<a href="a-home.html" id="return"><ion-icon name="arrow-back-outline"></ion-icon> Return</a>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
+		<form action="login.php" method="post">
 			<h1>Create an Account</h1> <br>
 
 			<input type="email" placeholder="Email" />
@@ -22,13 +22,13 @@
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="#">
+		<form action="login.php" method="post">
 			<h1>Sign in</h1> <br>
 
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
+			<input type="email" name="E-mail" placeholder="Email" />
+			<input type="password" name="Password" placeholder="Password" />
 			<a href="#">Forgot your password?</a>
-			<button>Sign In</button>
+			<input type="submit" class="submit" value="Sign In"/>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -53,5 +53,16 @@
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+
+<?php
+
+include "classes.php";
+
+$login= new Connexion();
+
+$login->connecter_site();
+
+
+    ?>
 </body>
 </html>
