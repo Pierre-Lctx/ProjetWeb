@@ -10,6 +10,55 @@
 </head>
 <body>
 
+  <?php
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+
+    //On essaie de se connecter
+    try{
+      $conn = new PDO("mysql:host=$servername;dbname=projetweb", $username, $password);
+      //On définit le mode d'erreur de PDO sur Exception
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      $query = $conn->prepare("SELECT user.ID_USER FROM user WHERE user.email = '" . "baptiste.lerate@viacesi.fr" . "' LIMIT 1"); //$_COOKIE['E-mail']
+      $query->execute();
+
+      $data = $query->fetchAll(PDO::FETCH_BOTH);
+
+      foreach ($data as $row)
+      {
+        $idPerson["ID_USER"] = $row["ID_USER"];
+        echo($idPerson['ID_USER']);
+      }
+
+      
+      /*
+      $query = $conn->prepare("SELECT final_offer.ID_OFFER, final_offer.COMPANY_NAME, final_offer.OFFER_NAME, final_offer.MISSION from whishlist inner join final_offer on final_offer.ID_OFFER = whishlist.ID_OFFER where whishlist.ID_USER = " . $idPerson);
+      $query->execute();*/
+
+      $queryNumber = $conn->prepare("SELECT COUNT(ID_USER) as NUMBER FROM `whishlist` where ID_USER = " . intval($idPerson, 10));
+      $queryNumber->execute();
+
+      $data1 = $queryNumber->fetchAll(PDO::FETCH_BOTH);
+
+        foreach ($data1 as $row)
+        {
+          $number["NUMBER"] = $row['NUMBER'];
+          echo($number['NUMBER']);
+        }
+
+        
+    }
+
+    catch(PDOException $e){
+      echo "Erreur : " . $e->getMessage();
+    }
+
+  
+    
+  ?>
+
     <div class="hero" id="heroWishlist">
     <nav>
   
@@ -55,7 +104,29 @@
       <div class="cardwishlist"></div>
       <div class="cardwishlist"></div>
       
-      
+      <div class="main">
+
+      <ul class="cards">
+        <?php
+
+        for ($i = 0; $i < $number; $i++) {
+        
+        ?>
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon> Add to wishlist</button><img src="https://cdn.webnews.it/QnTWEyYTWDq8ynWxQODvb35dQUM=/2160x1350/smart/https://www.webnews.it/app/uploads/sites/2/2022/03/evento-apple-8-marzo-2022.jpg"></div>
+            <div class="card_content">
+              <h2 class="card_title">Apple - iOS Developper</h2>
+              <p class="card_text">We are looking for new talents, come join us !</p>
+              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+            </div>
+          </div>
+        </li>
+        <?php
+        }
+        ?>
+      </ul>
+    </div>
 
       
 
