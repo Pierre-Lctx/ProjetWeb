@@ -73,7 +73,7 @@ class Connexion
                                     'expires' => time() + 365*24*3600,
                                 ]
                             );
-                            header("Location: home-etud.html");
+                            header("Location: home-etud.php");
                         }
                         }
                         

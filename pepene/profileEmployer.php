@@ -341,15 +341,15 @@
                       <ul class="nav_ul">
     
                         <li>
-                          <a href="a-home.html">Home</a>
+                          <a href="a-home.php">Home</a>
                         </li>
                         
                         <li>
-                          <a href="offers.html">Offers</a>
+                          <a href="offers.php">Offers</a>
                         </li>
                         
                         <li>
-                          <a href="wishlist.html">Wishlist</a>
+                          <a href="wishlist.php">Wishlist</a>
                         </li>
     
                       </ul>
