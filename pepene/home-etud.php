@@ -35,7 +35,7 @@
           <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
         </ul>
       </li>
-      <li><a href="#">Étudiant</a></li>
+      <li><a href="#">Student</a></li>
       <li><a href="profileCandidate.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
     </ul>
      
