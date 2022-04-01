@@ -22,7 +22,7 @@
       //On définit le mode d'erreur de PDO sur Exception
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      $queryUser = $conn->prepare("SELECT* FROM user WHERE promotion.ID_PROMOTION = '" . $user['ID_PROMOTION'] . "' LIMIT 1");
+      $queryUser = $conn->prepare("SELECT * FROM user WHERE user.EMAIL = '" . $_COOKIE['E-mail'] . "' LIMIT 1");
       $queryUser->execute();
 
       $data = $queryUser->fetchAll(PDO::FETCH_BOTH);
