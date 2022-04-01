@@ -128,7 +128,8 @@ $cardOffer = $recipe->showOffer();
             <div class="card_content">
               <h2 class="card_title"><?php echo $card['COMPANY_NAME']; echo(" - "); echo $card['OFFER_NAME'];?></h2>
               <p class="card_text">We are looking for new talents, come join us !</p>
-              <button onclick="window.location.href='offerDesc.php';" class="btn card_btn">Read More</button>
+              <form action="GET" action="classe.php"><button onclick="window.location.href='offerDesc.php?idOffer=1';" class="btn card_btn">Read More</button></form>
+
             </div>
           </div>
           </li>
