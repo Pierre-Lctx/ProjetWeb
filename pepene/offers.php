@@ -47,7 +47,7 @@ $cardOffer = $recipe->showOffer();
             <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
           </ul>
         </li>
-        <li><a href="profile.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
+        <li><a href="profileCandidate.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
       </ul>
      
    
