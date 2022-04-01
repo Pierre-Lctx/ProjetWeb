@@ -129,7 +129,7 @@
         $offer["TRUST"] = $row["TRUST"];
         $offer["NUMBER_OF_PLACES"] = $row["NUMBER_OF_PLACES"];
         $offer["COMPANY_NAME"] = $row["COMPANY_NAME"];
-        $offer["ACTIVTY_SECTOR"] = $row["ACTIVTY_SECTOR"];
+        $offer["ACTIVITY_SECTOR"] = $row["ACTIVITY_SECTOR"];
         $offer["NUMBER_OF_STUDENTS"] = $row["NUMBER_OF_STUDENTS"];
       }
     }
