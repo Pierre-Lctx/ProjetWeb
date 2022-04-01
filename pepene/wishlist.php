@@ -21,7 +21,7 @@
       //On définit le mode d'erreur de PDO sur Exception
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      $query = $conn->prepare("SELECT user.ID_USER FROM user WHERE user.email = '" . "baptiste.lerate@viacesi.fr" . "' LIMIT 1"); //$_COOKIE['E-mail']
+      $query = $conn->prepare("SELECT user.ID_USER FROM user WHERE user.email = '" . $_COOKIE['E-mail'] . "' LIMIT 1");
       $query->execute();
 
       $data = $query->fetchAll(PDO::FETCH_BOTH);
@@ -29,15 +29,12 @@
       foreach ($data as $row)
       {
         $idPerson["ID_USER"] = $row["ID_USER"];
-        echo($idPerson['ID_USER']);
       }
 
       
-      /*
-      $query = $conn->prepare("SELECT final_offer.ID_OFFER, final_offer.COMPANY_NAME, final_offer.OFFER_NAME, final_offer.MISSION from whishlist inner join final_offer on final_offer.ID_OFFER = whishlist.ID_OFFER where whishlist.ID_USER = " . $idPerson);
-      $query->execute();*/
+      
 
-      $queryNumber = $conn->prepare("SELECT COUNT(ID_USER) as NUMBER FROM `whishlist` where ID_USER = " . intval($idPerson, 10));
+      $queryNumber = $conn->prepare("SELECT COUNT(ID_USER) as NUMBER FROM `whishlist` where ID_USER = " . intval($idPerson['ID_USER'], 10));
       $queryNumber->execute();
 
       $data1 = $queryNumber->fetchAll(PDO::FETCH_BOTH);
@@ -45,10 +42,14 @@
         foreach ($data1 as $row)
         {
           $number["NUMBER"] = $row['NUMBER'];
-          echo($number['NUMBER']);
         }
 
-        
+      $queryWish = $conn->prepare("SELECT final_offer.COMPANY_NAME, final_offer.OFFER_NAME, final_offer.MISSION from whishlist inner join final_offer on final_offer.ID_OFFER = whishlist.ID_OFFER where whishlist.ID_USER = " . intval($idPerson['ID_USER'], 10));
+      $queryWish->execute();
+
+      $data2 = $queryWish->fetchAll();
+
+      
     }
 
     catch(PDOException $e){
@@ -66,17 +67,17 @@
   
         <ul>
   
-          <li><a href="a-home.html">Home</a></li>
-          <li><a href="offers.html">Offers</a></li>
-          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="a-home.php">Home</a></li>
+          <li><a href="offers.php">Offers</a></li>
+          <li><a href="wishlist.php">Wishlist</a></li>
   
           <li id="deroulant"> <a id="cache" href="#">Employer</a>
           <ul>
-            <li ><a class="employer hidden" href="post.html">Post an offer</a></li>
-            <li ><a class="employer hidden" href="profileEmployer.html">Profile</a></li>
+            <li ><a class="employer hidden" href="post.php">Post an offer</a></li>
+            <li ><a class="employer hidden" href="profileEmployer.php">Profile</a></li>
           </ul>
         </li>
-        <li><a href="profile.html">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
+        <li><a href="profile.php">My Profile </a> <ion-icon id="profileicon" name="person-circle-outline"></ion-icon></li> 
       </ul>
        
       </nav>
@@ -109,15 +110,27 @@
       <ul class="cards">
         <?php
 
-        for ($i = 0; $i < $number; $i++) {
+        foreach ($data2 as $row)
+        {
+          $wish["COMPANY_NAME"] = $row["COMPANY_NAME"];
+          $wish["OFFER_NAME"] = $row["OFFER_NAME"];
+          $wish["MISSION"] = $row["MISSION"];
+          
+          
         
         ?>
         <li class="cards_item">
           <div class="card">
             <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon> Add to wishlist</button><img src="https://cdn.webnews.it/QnTWEyYTWDq8ynWxQODvb35dQUM=/2160x1350/smart/https://www.webnews.it/app/uploads/sites/2/2022/03/evento-apple-8-marzo-2022.jpg"></div>
             <div class="card_content">
-              <h2 class="card_title">Apple - iOS Developper</h2>
-              <p class="card_text">We are looking for new talents, come join us !</p>
+              <h2 class="card_title">
+                <?php 
+                  echo $wish['COMPANY_NAME'];
+                  echo(" - "); 
+                  echo($wish['OFFER_NAME']); 
+                ?>
+              </h2>
+              <p class="card_text"><?php echo($wish['MISSION']); ?></p>
               <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
             </div>
           </div>
