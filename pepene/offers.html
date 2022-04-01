@@ -1,14 +1,3 @@
-<?php
-
-include "classes.php";
-
-$recipe = new Offer();
-
-$cardOffer = $recipe->showOffer();
-
-
-    ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -119,20 +108,66 @@ $cardOffer = $recipe->showOffer();
     <div class="main">
 
       <ul class="cards">
-       
-          <?php
-          foreach($cardOffer as $card):?>
-           <li class="cards_item">
-            <div class="card">
+        <li class="cards_item">
+          <div class="card">
             <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon> Add to wishlist</button><img src="https://cdn.webnews.it/QnTWEyYTWDq8ynWxQODvb35dQUM=/2160x1350/smart/https://www.webnews.it/app/uploads/sites/2/2022/03/evento-apple-8-marzo-2022.jpg"></div>
             <div class="card_content">
-              <h2 class="card_title"><?php echo $card['COMPANY_NAME']; echo(" - "); echo $card['OFFER_NAME'];?></h2>
+              <h2 class="card_title">Apple - iOS Developper</h2>
               <p class="card_text">We are looking for new talents, come join us !</p>
               <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
             </div>
           </div>
-          </li>
-            <?php endforeach ?>
+        </li>
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon>Add to wishlist</button><img src="https://thumbs.dreamstime.com/b/illustration-de-logo-l-espace-et-spacex-dessus-vecteur-la-plan%C3%A8te-d-sur-elle-195641418.jpg"></div>
+            <div class="card_content">
+              <h2 class="card_title">SpaceX - Technician</h2>
+              <p class="card_text">Explore with us</p>
+              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+            </div>
+          </div>
+        </li>
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon>Add to wishlist</button><img src="https://www.picclickimg.com/d/l400/pict/193296734719_/Sticker-Nasa-Logo-Noir-Conquete-Spatiale-Space-Fusee.jpg"></div>
+            <div class="card_content">
+              <h2 class="card_title">Nasa - Network Assistant</h2>
+              <p class="card_text">Drift through the immensity of our network</p>
+              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+            </div>
+          </div>
+        </li>
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon>Add to wishlist</button><img src="https://picsum.photos/500/300/?image=14"></div>
+            <div class="card_content">
+              <h2 class="card_title">Card Grid Layout</h2>
+              <p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>
+              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+            </div>
+          </div>
+        </li>
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon>Add to wishlist</button><img src="https://picsum.photos/500/300/?image=17"></div>
+            <div class="card_content">
+              <h2 class="card_title">Card Grid Layout</h2>
+              <p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>
+              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+            </div>
+          </div>
+        </li>
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_image"><button class="favorite-button"><ion-icon class="addFavorites" name="star-outline"></ion-icon>Add to wishlist</button><img src="https://picsum.photos/500/300/?image=2"></div>
+            <div class="card_content">
+              <h2 class="card_title">Card Grid Layout</h2>
+              <p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>
+              <button onclick="window.location.href='offerDesc.html';" class="btn card_btn">Read More</button>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
     
@@ -256,7 +291,6 @@ $cardOffer = $recipe->showOffer();
 <script src="jquery/main.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
 
 </body>
 </html>

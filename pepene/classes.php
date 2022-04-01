@@ -96,7 +96,48 @@ class entreprise {
     
 }   
     
-            
+
+class Offer
+{
+    private string $servername = 'localhost';
+    private string $username = 'root';
+    private string $password_db = '';
+    private $conn;
+
+    public function showOffer()
+    {
+        
+        $servername = 'localhost';
+            $username = 'root';
+            $password = '';
+
+            //On essaie de se connecter
+            try{
+                $this->conn = new PDO("mysql:host=$servername;dbname=projetweb", $this->username, $this->password_db);
+                //On définit le mode d'erreur de PDO sur Exception
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ 
+                $manyOffer = $this->conn->prepare('SELECT final_offer.ID_OFFER, final_offer.COMPANY_NAME, final_offer.OFFER_NAME, final_offer.MISSION FROM final_offer;');
+
+                $manyOffer->execute();
+                $recipeOffer = $manyOffer->fetchAll();
+
+                return $recipeOffer;
+
+            }
+
+
+            /*On capture les exceptions si une exception est lancée et on affiche
+             les informations relatives à celle-ci*/
+
+            catch(PDOException $e){
+              echo "Erreur : " . $e->getMessage();
+            }
+
+       
+        
+    }
+}
            
             
 ?>
